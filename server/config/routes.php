@@ -17,6 +17,11 @@ $app->group("/auth", function (RouteCollectorProxy $authRoute) {
 $app->group("/blog", function (RouteCollectorProxy $blogRoute) {
     $blogRoute->get("/", BlogIndex::class);
     $blogRoute->post('/', [Blog::class, "addPost"]);
+
+    $blogRoute->group("", function (RouteCollectorProxy $blogRoute) {
+        $blogRoute->post("/{post_id:[0-9]+}", [Blog::class, "updatePost"]);
+    });
+
 })->add(AddJsonResponseHeader::class);
 
 ?>

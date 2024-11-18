@@ -52,11 +52,11 @@ class AuthRepo
         return $stmt->fetch() !== false;
     }
 
-    public function checkIfUserExistsByID(int $value): array|bool
+    public function checkIfUserExistsByID(string $value): array|bool
     {
         $sql = "SELECT * FROM users WHERE user_id = :value";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(":value", $value, PDO::PARAM_INT);
+        $stmt->bindParam(":value", $value);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {

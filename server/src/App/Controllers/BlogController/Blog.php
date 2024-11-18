@@ -45,8 +45,39 @@ class Blog
             return $response->withStatus(422);
         }
 
-        $this->blogRepository->createBlog($data);
-        $bodyData = json_encode(["success" => true, "message" => "Blog post created!"]);
+        if ($this->blogRepository->createBlog($data)) {
+            $bodyData = json_encode(["success" => true, "message" => "Blog post created!"]);
+        } else {
+            $bodyData = json_encode(["success" => false, "message" => "Something went wrong"]);
+        }
+
+
+        $response->getBody()->write($bodyData);
+        return $response->withStatus(201);
+    }
+
+    public function updatePost(Request $request, Response $response, string $post_id)
+    {
+        $data = $request->getParsedBody();
+
+        $this->validator = $this->validator->withData($data);
+
+        if (!$this->validator->validate()) {
+            $response->getBody()->write(json_encode(["success" => false, "message:" => $this->validator->errors()]));
+            return $response->withStatus(422);
+        }
+
+        if ($this->authRepo->checkIfUserExistsByID($data['user_id']) === false) {
+            $response->getBody()->write(json_encode(["success" => false, "message" => "This user is non-existent"]));
+            return $response->withStatus(422);
+        }
+
+        if ($this->blogRepository->updateBlog((int) $post_id, $data)) {
+            $bodyData = json_encode(["success" => true, "message" => "Blog post updated!"]);
+        } else {
+            $bodyData = json_encode(["success" => false, "message" => "Something went wrong"]);
+        }
+
 
         $response->getBody()->write($bodyData);
         return $response->withStatus(201);
