@@ -6,6 +6,7 @@ use App\Middleware\AddJsonResponseHeader;
 use App\Controllers\AuthController\Signup;
 use App\Controllers\AuthController\Login;
 use App\Controllers\BlogController\BlogIndex;
+use App\Controllers\BlogController\Blog;
 
 $app->group("/auth", function (RouteCollectorProxy $authRoute) {
     $authRoute->post('/signup', [Signup::class, 'signup']);
@@ -15,6 +16,7 @@ $app->group("/auth", function (RouteCollectorProxy $authRoute) {
 
 $app->group("/blog", function (RouteCollectorProxy $blogRoute) {
     $blogRoute->get("/", BlogIndex::class);
+    $blogRoute->post('/', [Blog::class, "addPost"]);
 })->add(AddJsonResponseHeader::class);
 
 ?>

@@ -52,6 +52,21 @@ class AuthRepo
         return $stmt->fetch() !== false;
     }
 
+    public function checkIfUserExistsByID(int $value): array|bool
+    {
+        $sql = "SELECT * FROM users WHERE user_id = :value";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":value", $value, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public function login(array $data)
     {
         $password_hash = hash('sha256', $data['password']);

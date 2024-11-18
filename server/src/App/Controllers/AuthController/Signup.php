@@ -25,8 +25,6 @@ class Signup
             'phone_num' => ['required'],
             'gender' => ['required'],
         ]);
-
-
     }
 
     public function signup(Request $request, Response $response)
