@@ -20,6 +20,7 @@ $app->group("/blog", function (RouteCollectorProxy $blogRoute) {
 
     $blogRoute->group("", function (RouteCollectorProxy $blogRoute) {
         $blogRoute->post("/{post_id:[0-9]+}", [Blog::class, "updatePost"]);
+        $blogRoute->delete('/{post_id:[0-9]+}', [Blog::class, "removePost"]);
     });
 
 })->add(AddJsonResponseHeader::class);

@@ -36,6 +36,10 @@ class ComposerStaticInite76b0dba920fa56f9d890196703e6a81
             'Psr\\Container\\' => 14,
             'PhpOption\\' => 10,
         ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
+        ),
         'L' => 
         array (
             'Laravel\\SerializableClosure\\' => 28,
@@ -107,6 +111,10 @@ class ComposerStaticInite76b0dba920fa56f9d890196703e6a81
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Laravel\\SerializableClosure\\' => 
         array (

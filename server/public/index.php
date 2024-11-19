@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Slim\Factory\AppFactory;
 use DI\ContainerBuilder;
 use Slim\Handlers\Strategies\RequestResponseArgs;
+use App\Middleware\ErrorHandler;
 
 define('APP_ROOT', dirname(__DIR__));
 
@@ -26,7 +27,10 @@ $collector = $app->getRouteCollector();
 $collector->setDefaultInvocationStrategy(new RequestResponseArgs);
 
 $app->addBodyParsingMiddleware();
-$app->addErrorMiddleware(true,true,true);
+
+
+$errorMiddleware = $app->addErrorMiddleware(true, true, true);
+$errorMiddleware->setDefaultErrorHandler(new ErrorHandler());
 
 require APP_ROOT . '/config/routes.php';
 

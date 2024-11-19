@@ -82,5 +82,24 @@ class Blog
         $response->getBody()->write($bodyData);
         return $response->withStatus(201);
     }
+
+    public function removePost(Request $request, Response $response, string $post_id)
+    {
+        $result = $this->blogRepository->removeBlog((int) $post_id);
+
+
+
+        if (is_array($result) && isset($result['success'], $result['message'])) {
+            $bodyData = json_encode($result);
+        } else {
+            $bodyData = json_encode([
+                "success" => false,
+                "message" => "Something went wrong"
+            ]);
+        }
+
+        $response->getBody()->write($bodyData);
+        return $response;
+    }
 }
 ?>

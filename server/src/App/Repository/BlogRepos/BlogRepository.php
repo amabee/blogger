@@ -166,6 +166,44 @@ class BlogRepository
         }
     }
 
+    public function removeBlog(int $post_id)
+    {
+        try {
+
+            $selectPostIDSql = "SELECT COUNT(`post_id`) AS post_count from `posts` WHERE post_id = :post_id";
+            $selectPostIDStmt = $this->conn->prepare($selectPostIDSql);
+            $selectPostIDStmt->bindParam(":post_id", $post_id, PDO::PARAM_INT);
+            $selectPostIDStmt->execute();
+            $result = $selectPostIDStmt->fetch(PDO::FETCH_ASSOC);
+            //WTF NOT ROW COUNT
+            if ($result['post_count'] <= 0) {
+                return ['success' => false, "message" => "Post not found"];
+            } else {
+                $sql = "DELETE FROM `posts` WHERE `post_id` = :post_id";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindParam(":post_id", $post_id, PDO::PARAM_INT);
+
+                if ($stmt->execute()) {
+                    return [
+                        'success' => true,
+                        'message' => 'Post deleted successfully'
+                    ];
+                } else {
+                    return [
+                        'success' => false,
+                        'message' => 'Failed to delete post'
+                    ];
+                }
+            }
+
+        } catch (PDOException $ex) {
+            return [
+                'success' => false,
+                'message' => "Exception Handled: " . $ex->getMessage()
+            ];
+        }
+    }
+
 
 }
 
