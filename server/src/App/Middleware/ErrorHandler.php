@@ -51,7 +51,7 @@ class ErrorHandler
         if ($logErrors) {
             $logger = new MonoLogger('error_log');
 
-            $logger->pushHandler(new MonoStreamHandler(__DIR__ . '../../logs/error_log.log', MonoLogger::ERROR));
+            $logger->pushHandler(new MonoStreamHandler(__DIR__ . '../../../../AppLogs/error_log.log', MonoLogger::ERROR));
 
             $logger->error($exception->getMessage(), [
                 'file' => $exception->getFile(),
@@ -62,7 +62,7 @@ class ErrorHandler
 
         if ($logErrorDetails) {
             $logger = new MonoLogger('error_detail');
-            $logger->pushHandler(new MonoStreamHandler(__DIR__ . '../../logs/error_details.log', MonoLogger::DEBUG));
+            $logger->pushHandler(new MonoStreamHandler(__DIR__ . '../../../../AppLogs/error_details.log', MonoLogger::DEBUG));
 
             $logger->error('Detailed Error', [
                 'message' => $exception->getMessage(),

@@ -27,6 +27,16 @@ class Blog
         ]);
     }
 
+    public function readPostByID(Request $request, Response $response, string $post_id)
+    {
+
+        $result = $this->blogRepository->getBlogByID((int) $post_id);
+
+        $response->getBody()->write(json_encode($result));
+
+        return $response->withStatus(200);
+    }
+
     public function addPost(Request $request, Response $response)
     {
         $data = $request->getParsedBody();
@@ -87,8 +97,6 @@ class Blog
     {
         $result = $this->blogRepository->removeBlog((int) $post_id);
 
-
-
         if (is_array($result) && isset($result['success'], $result['message'])) {
             $bodyData = json_encode($result);
         } else {
@@ -101,5 +109,6 @@ class Blog
         $response->getBody()->write($bodyData);
         return $response;
     }
+
 }
 ?>

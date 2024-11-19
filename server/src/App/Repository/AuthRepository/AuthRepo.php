@@ -93,22 +93,18 @@ class AuthRepo
 
     //IMPLEMENT LATER
 
-    // public function checkIfValidSession(array $data)
-    // {
-    //     $sql = "SELECT `session_key` FROM `sessions`
-    //             WHERE session_key = :session_key AND user_id = :user_id";
+    public function checkIfValidSession(string $session_key, int $user_id)
+    {
+        $sql = "SELECT `session_key` FROM `sessions`
+                WHERE session_key = :session_key AND user_id = :user_id";
 
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->bindParam(":user_id", $data['user_id']);
-    //     $stmt->bindParam(":session_key", $data['session_key']);
-    //     $stmt->execute();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(":session_key", $session_key, PDO::PARAM_STR);
+        $stmt->execute();
 
-    //     if ($stmt->rowCount() > 0) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
+        return $stmt->rowCount() > 0;
+    }
 }
 
 ?>

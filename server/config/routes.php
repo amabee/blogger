@@ -8,6 +8,8 @@ use App\Controllers\AuthController\Login;
 use App\Controllers\BlogController\BlogIndex;
 use App\Controllers\BlogController\Blog;
 
+use App\Middleware\RequireSessionKey;
+
 $app->group("/auth", function (RouteCollectorProxy $authRoute) {
     $authRoute->post('/signup', [Signup::class, 'signup']);
     $authRoute->post('/login', [Login::class, 'login']);
@@ -19,10 +21,11 @@ $app->group("/blog", function (RouteCollectorProxy $blogRoute) {
     $blogRoute->post('/', [Blog::class, "addPost"]);
 
     $blogRoute->group("", function (RouteCollectorProxy $blogRoute) {
-        $blogRoute->post("/{post_id:[0-9]+}", [Blog::class, "updatePost"]);
+        $blogRoute->get("/{post_id:[0-9]+}", [Blog::class, "readPostByID"]);
+        $blogRoute->post("/{post_id:[0-9]+}", [Blog::class, "updatePost"]); //FOR UPDATING
         $blogRoute->delete('/{post_id:[0-9]+}', [Blog::class, "removePost"]);
     });
 
-})->add(AddJsonResponseHeader::class);
+})->add(AddJsonResponseHeader::class)->add(RequireSessionKey::class);
 
 ?>

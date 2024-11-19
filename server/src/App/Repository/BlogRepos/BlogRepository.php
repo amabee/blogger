@@ -28,6 +28,24 @@ class BlogRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getBlogByID(int $post_id)
+    {
+        $sql = "SELECT * FROM posts WHERE post_id = :post_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":post_id", $post_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($result)) {
+            return ["success" => false, "message" => "Post not found"];
+        }
+
+        return ["success" => true, "data" => $result];
+
+
+    }
+
     public function createBlog(array $data)
     {
         try {
