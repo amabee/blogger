@@ -6,7 +6,8 @@
     "php-di/php-di": "^7.0",
     "vlucas/valitron": "^1.4",
     "defuse/php-encryption": "^2.4",
-    "monolog/monolog": "^3.8"
+    "monolog/monolog": "^3.8",
+    "firebase/php-jwt": "^6.10"
   },
   "autoload": {
     "psr-4": {

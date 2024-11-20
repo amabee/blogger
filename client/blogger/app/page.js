@@ -1,101 +1,305 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import React, { useState } from "react";
+import {
+  Search,
+  Home,
+  Bell,
+  MessageSquare,
+  Bookmark,
+  Heart,
+  MessageCircle,
+  Share2,
+  Send,
+  Image as ImageIcon,
+  Users,
+  Smile,
+  TrendingUp,
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import ProfileCard from "@/components/shared_component/ProfileCard";
+import ClientTweetCard from "@/components/shared_component/BlogCard";
+import BlogCard from "@/components/shared_component/BlogCard";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+const BugbookLayout = () => {
+  const [postContent, setPostContent] = useState("");
+
+  const posts = [
+    {
+      id: 1,
+      user: {
+        name: "Coding in Flow",
+        avatar: "/api/placeholder/40/40",
+        badge: "Pro",
+      },
+      content: "Subscribe to Coding in Flow if you haven't yet!",
+      timestamp: "21 hours ago",
+      likes: 142,
+      comments: 23,
+      shares: 7,
+      bookmarks: 12,
+      image: "/api/placeholder/400/300",
+    },
+    {
+      id: 2,
+      user: {
+        name: "Coding in Flow",
+        avatar: "/api/placeholder/40/40",
+        badge: "Pro",
+      },
+      content: "A variable is a box where you can put a value in!",
+      timestamp: "21 hours ago",
+      likes: 89,
+      comments: 15,
+      shares: 4,
+      bookmarks: 8,
+      hashtags: ["#learntocode", "#programming"],
+    },
+  ];
+
+  const whoToFollow = [
+    {
+      name: "Florian Walther",
+      handle: "@florian-walther",
+      avatar: "/api/placeholder/40/40",
+    },
+    {
+      name: "Ferdinand",
+      handle: "@Ferdinand",
+      avatar: "/api/placeholder/40/40",
+    },
+    {
+      name: "Flo 2",
+      handle: "@florian-walther2",
+      avatar: "/api/placeholder/40/40",
+    },
+  ];
+
+  const trendingTopics = [
+    { tag: "#codinginflow", posts: 2342, trend: "+12%" },
+    { tag: "#typescript", posts: 1893, trend: "+8%" },
+    { tag: "#webdev", posts: 1654, trend: "+15%" },
+    { tag: "#javascript", posts: 1432, trend: "+5%" },
+    { tag: "#react", posts: 1223, trend: "+10%" },
+    { tag: "#react", posts: 1223, trend: "+10%" },
+    { tag: "#react", posts: 1223, trend: "+10%" },
+    { tag: "#react", posts: 1223, trend: "+10%" },
+  ];
+
+  const Navigation = () => (
+    <nav className="space-y-2">
+      <Button
+        variant="ghost"
+        className="w-full justify-start hover:bg-green-50 dark:hover:bg-green-900/20 font-medium"
+      >
+        <Home className="mr-3 h-5 w-5" /> Home
+      </Button>
+      <Button
+        variant="ghost"
+        className="w-full justify-start hover:bg-green-50 dark:hover:bg-green-900/20 font-medium"
+      >
+        <Bell className="mr-3 h-5 w-5" /> Notifications
+      </Button>
+      <Button
+        variant="ghost"
+        className="w-full justify-start hover:bg-green-50 dark:hover:bg-green-900/20 font-medium"
+      >
+        <MessageSquare className="mr-3 h-5 w-5" /> Messages
+      </Button>
+      <Button
+        variant="ghost"
+        className="w-full justify-start hover:bg-green-50 dark:hover:bg-green-900/20 font-medium"
+      >
+        <Bookmark className="mr-3 h-5 w-5" /> Bookmarks
+      </Button>
+    </nav>
+  );
+
+  const MobileNavBar = () => (
+    <div className="fixed bottom-0 left-0 right-0 border-t backdrop-blur-lg bg-background/80 z-50">
+      <div className="flex justify-around p-2">
+        <Button variant="ghost" size="sm" className="flex-1">
+          <Home className="h-6 w-6" />
+        </Button>
+        <Button variant="ghost" size="sm" className="flex-1">
+          <Bell className="h-6 w-6" />
+        </Button>
+        <Button variant="ghost" size="sm" className="flex-1">
+          <MessageSquare className="h-6 w-6" />
+        </Button>
+        <Button variant="ghost" size="sm" className="flex-1">
+          <Bookmark className="h-6 w-6" />
+        </Button>
+      </div>
     </div>
   );
-}
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-zinc-900 ">
+      {/* Fixed Header */}
+      <header className="fixed top-0 w-full border-b backdrop-blur-lg bg-white/80 dark:bg-zinc-950/80 z-50">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="text-green-500 font-bold text-2xl">BlogBook</div>
+          </div>
+
+          <div className="hidden md:block flex-1 max-w-md mx-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                className="pl-9 bg-muted/50 border-none rounded-full"
+                placeholder="Search"
+              />
+            </div>
+          </div>
+          <Avatar className="ring-2 ring-green-500 ring-offset-2 ring-offset-background transition-all hover:ring-green-600 cursor-pointer">
+            <AvatarImage src="/api/placeholder/40/40" />
+            <AvatarFallback>U</AvatarFallback>
+          </Avatar>
+        </div>
+      </header>
+
+      {/* Main Content Area */}
+      <div className="flex-1 pt-16 pb-16 md:pb-0">
+        <div className="max-w-full mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            {/* Left Sidebar */}
+            <div className="hidden md:block md:col-span-3">
+              <div className="sticky top-20  max-h-[calc(100vh-5rem)]">
+                <ProfileCard />
+              </div>
+            </div>
+
+            {/* Main Content */}
+            <main className="md:col-span-6 mt-4 ">
+              <div className="space-y-6">
+                {/* Post Creation Card */}
+                <Card className="p-4 shadow-md bg-white dark:bg-zinc-950">
+                  <div className="flex gap-4">
+                    <Avatar className="w-10 h-10">
+                      <AvatarImage src="/api/placeholder/40/40" />
+                      <AvatarFallback>U</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <textarea
+                        className="w-full p-2 bg-transparent border-none focus:ring-0 resize-none text-foreground text-lg placeholder:text-muted-foreground/60"
+                        placeholder="What's on your mind?"
+                        rows={3}
+                        value={postContent}
+                        onChange={(e) => setPostContent(e.target.value)}
+                      />
+                      <Separator className="my-3" />
+                      <div className="flex items-center justify-between mt-2">
+                        <div className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-green-500 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20"
+                          >
+                            <ImageIcon className="h-5 w-5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-green-500 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20"
+                          >
+                            <Smile className="h-5 w-5" />
+                          </Button>
+                        </div>
+                        <Button
+                          className="bg-green-500 hover:bg-green-600 text-white gap-2 px-6"
+                          disabled={!postContent.trim()}
+                        >
+                          <Send className="h-4 w-4" /> Post
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Feed Tabs */}
+                <Tabs defaultValue="for-you" className="mb-6">
+                  <TabsList className="w-full bg-white dark:bg-zinc-950 p-1 shadow-md rounded-lg">
+                    <TabsTrigger
+                      value="for-you"
+                      className="flex-1 data-[state=active]:bg-green-500 data-[state=active]:text-white rounded-md transition-all"
+                    >
+                      For you
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="following"
+                      className="flex-1 data-[state=active]:bg-green-500 data-[state=active]:text-white rounded-md transition-all"
+                    >
+                      Following
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+
+                {/* Posts */}
+                <div className="space-y-4">
+                  {posts.map((post) => (
+                    <BlogCard post={post} key={post.id} />
+                  ))}
+                </div>
+              </div>
+            </main>
+
+            {/* Right Sidebar */}
+
+            <div className="sticky top-20 max-h-[calc(100vh-8rem)] col-span-3">
+              <Card
+                className="p-4 shadow-md bg-white dark:bg-zinc-950 max-h-96 overflow-y-auto 
+                [&::-webkit-scrollbar]:w-2
+                [&::-webkit-scrollbar-track]:rounded-full
+                [&::-webkit-scrollbar-track]:bg-gray-100
+                [&::-webkit-scrollbar-thumb]:rounded-full
+                [&::-webkit-scrollbar-thumb]:bg-gray-300
+                dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+              >
+                <h2 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5 text-green-500" />
+                  Trending topics
+                </h2>
+                <CardContent className="overflow-y-auto max-h-[calc(100%-3rem)]">
+                  <div className="space-y-3">
+                    {trendingTopics.map((topic, index) => (
+                      <div
+                        key={index}
+                        className="p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group"
+                      >
+                        <div className="flex justify-between items-center">
+                          <div className="text-green-500 group-hover:text-green-600 font-medium">
+                            {topic.tag}
+                          </div>
+                          <div className="text-xs text-green-500 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">
+                            {topic.trend}
+                          </div>
+                        </div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          {topic.posts.toLocaleString()} posts
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation - Fixed at bottom */}
+      <div className="md:hidden">
+        <MobileNavBar />
+      </div>
+    </div>
+  );
+};
+
+export default BugbookLayout;

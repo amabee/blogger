@@ -49,6 +49,12 @@ class Signup
             return $response->withStatus(422);
         }
 
+        if ($this->authRepo->checkIfPhoneExists($data['phone_num'])) {
+            $response->getBody()->write(json_encode(["success" => false, "message" => "The phone number is already taken"]));
+            return $response->withStatus(code: 422);
+        }
+
+
         $this->authRepo->signup($data);
 
         $bodyData = json_encode(["success" => true, "message" => "Account was successfully created"]);

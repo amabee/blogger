@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
-//WTF
+
+
 use Slim\Routing\RouteCollectorProxy;
 use App\Middleware\AddJsonResponseHeader;
 use App\Controllers\AuthController\Signup;
 use App\Controllers\AuthController\Login;
+use App\Controllers\AuthController\CheckUsername;
 use App\Controllers\BlogController\BlogIndex;
 use App\Controllers\BlogController\Blog;
 
@@ -13,6 +15,7 @@ use App\Middleware\RequireSessionKey;
 $app->group("/auth", function (RouteCollectorProxy $authRoute) {
     $authRoute->post('/signup', [Signup::class, 'signup']);
     $authRoute->post('/login', [Login::class, 'login']);
+    $authRoute->post('/check_username', [CheckUsername::class, "checkUsernameAvailability"]);
 })->add(AddJsonResponseHeader::class);
 
 
