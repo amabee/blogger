@@ -15,6 +15,7 @@ import {
   Users,
   Smile,
   TrendingUp,
+  User,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -23,8 +24,42 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProfileCard from "@/components/shared_component/ProfileCard";
-import ClientTweetCard from "@/components/shared_component/BlogCard";
 import BlogCard from "@/components/shared_component/BlogCard";
+import { cn } from "@/lib/utils";
+import { Dock, DockIcon } from "@/components/ui/dock";
+import { Label } from "@/components/ui/label";
+
+const Navigation = () => {
+  const [activeIcon, setActiveIcon] = useState("home");
+
+  const navItems = [
+    { id: "home", icon: Home, label: "Home" },
+    { id: "notifications", icon: Bell, label: "Notifications" },
+    { id: "messages", icon: MessageSquare, label: "Messages" },
+    { id: "search", icon: Search, label: "Search" },
+  ];
+
+  return (
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+      <Dock magnification={60} distance={100}>
+        {navItems.map(({ id, icon: Icon, label }) => (
+          <DockIcon
+            key={id}
+            onClick={() => setActiveIcon(id)}
+            className="bg-green-800"
+          >
+            <Icon
+              className={cn(
+                " transition-all duration-200  rounded-full",
+                activeIcon === id ? "scale-100" : "scale-70"
+              )}
+            />
+          </DockIcon>
+        ))}
+      </Dock>
+    </div>
+  );
+};
 
 const BugbookLayout = () => {
   const [postContent, setPostContent] = useState("");
@@ -62,24 +97,6 @@ const BugbookLayout = () => {
     },
   ];
 
-  const whoToFollow = [
-    {
-      name: "Florian Walther",
-      handle: "@florian-walther",
-      avatar: "/api/placeholder/40/40",
-    },
-    {
-      name: "Ferdinand",
-      handle: "@Ferdinand",
-      avatar: "/api/placeholder/40/40",
-    },
-    {
-      name: "Flo 2",
-      handle: "@florian-walther2",
-      avatar: "/api/placeholder/40/40",
-    },
-  ];
-
   const trendingTopics = [
     { tag: "#codinginflow", posts: 2342, trend: "+12%" },
     { tag: "#typescript", posts: 1893, trend: "+8%" },
@@ -91,56 +108,8 @@ const BugbookLayout = () => {
     { tag: "#react", posts: 1223, trend: "+10%" },
   ];
 
-  const Navigation = () => (
-    <nav className="space-y-2">
-      <Button
-        variant="ghost"
-        className="w-full justify-start hover:bg-green-50 dark:hover:bg-green-900/20 font-medium"
-      >
-        <Home className="mr-3 h-5 w-5" /> Home
-      </Button>
-      <Button
-        variant="ghost"
-        className="w-full justify-start hover:bg-green-50 dark:hover:bg-green-900/20 font-medium"
-      >
-        <Bell className="mr-3 h-5 w-5" /> Notifications
-      </Button>
-      <Button
-        variant="ghost"
-        className="w-full justify-start hover:bg-green-50 dark:hover:bg-green-900/20 font-medium"
-      >
-        <MessageSquare className="mr-3 h-5 w-5" /> Messages
-      </Button>
-      <Button
-        variant="ghost"
-        className="w-full justify-start hover:bg-green-50 dark:hover:bg-green-900/20 font-medium"
-      >
-        <Bookmark className="mr-3 h-5 w-5" /> Bookmarks
-      </Button>
-    </nav>
-  );
-
-  const MobileNavBar = () => (
-    <div className="fixed bottom-0 left-0 right-0 border-t backdrop-blur-lg bg-background/80 z-50">
-      <div className="flex justify-around p-2">
-        <Button variant="ghost" size="sm" className="flex-1">
-          <Home className="h-6 w-6" />
-        </Button>
-        <Button variant="ghost" size="sm" className="flex-1">
-          <Bell className="h-6 w-6" />
-        </Button>
-        <Button variant="ghost" size="sm" className="flex-1">
-          <MessageSquare className="h-6 w-6" />
-        </Button>
-        <Button variant="ghost" size="sm" className="flex-1">
-          <Bookmark className="h-6 w-6" />
-        </Button>
-      </div>
-    </div>
-  );
-
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-zinc-900 ">
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-zinc-900">
       {/* Fixed Header */}
       <header className="fixed top-0 w-full border-b backdrop-blur-lg bg-white/80 dark:bg-zinc-950/80 z-50">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -170,13 +139,13 @@ const BugbookLayout = () => {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             {/* Left Sidebar */}
             <div className="hidden md:block md:col-span-3">
-              <div className="sticky top-20  max-h-[calc(100vh-5rem)]">
+              <div className="sticky top-20 max-h-[calc(100vh-5rem)]">
                 <ProfileCard />
               </div>
             </div>
 
             {/* Main Content */}
-            <main className="md:col-span-6 mt-4 ">
+            <main className="md:col-span-6 mt-4">
               <div className="space-y-6">
                 {/* Post Creation Card */}
                 <Card className="p-4 shadow-md bg-white dark:bg-zinc-950">
@@ -250,7 +219,6 @@ const BugbookLayout = () => {
             </main>
 
             {/* Right Sidebar */}
-
             <div className="sticky top-20 max-h-[calc(100vh-8rem)] col-span-3">
               <Card
                 className="p-4 shadow-md bg-white dark:bg-zinc-950 max-h-96 overflow-y-auto 
@@ -294,9 +262,9 @@ const BugbookLayout = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation - Fixed at bottom */}
-      <div className="md:hidden">
-        <MobileNavBar />
+      {/* Mobile Navigation */}
+      <div className="block ">
+        <Navigation />
       </div>
     </div>
   );
